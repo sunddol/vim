@@ -1,0 +1,316 @@
+" 2 lines below should be placed in top of file to work properly in _vimrc
+set langmenu=en_US      " difficulty in setting lang menu into english, 20190322
+lang mes en_us.utf-8            " message in english, en_US
+
+if(has('nvim'))==0      " nvim 에서는 사용하지 않음
+    source $VIMRUNTIME/vimrc_example.vim
+endif
+source $VIMRUNTIME/mswin.vim
+behave mswin
+
+" GUI setting
+if(has("gui_running"))
+    winsize 110 40
+    "set gfn=NanumGothicCoding:h10:b:cHANGEUL
+    set guioptions-=T       " Tool bal & menu is disabled
+    set guioptions-=m
+    set guioptions-=r
+    set guioptions-=l
+    set guioptions-=L
+    set guioptions-=b
+    "nmap <C-v>  <C-q>       " In visual/select mode, use <C-v> for column block
+endif
+
+
+" Vundle setting
+set rtp+=~/.vim
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin('~/.vim/bundle')
+    Plugin 'VundleVim/Vundle.vim'
+    "Plugin 'itchyny/calendar'
+    "Plugin 'junegunn/seoul256.vim'
+    Plugin 'scrooloose/nerdtree'
+    Plugin 'skywind3000/asyncrun.vim'
+    Plugin 'lervag/vimtex'
+    Plugin 'vim-airline/vim-airline'
+    Plugin 'vim-airline/vim-airline-themes'
+    Plugin 'altercation/vim-colors-solarized'
+    Plugin 'morhetz/gruvbox'
+    Plugin 'drewtempelmeyer/palenight.vim'
+    "Plugin 'ayu-theme/ayu-vim'
+call vundle#end()
+
+let mapleader=","           " custom leader
+let maplocalleader=","      " custom local leader
+
+
+" C:\Progra~1\Git\bin\bash.exe OR C:\\Progra~1\Git\bin\bash.exe
+set shell=bash.exe      " use bash from terminal
+set expandtab           " use space instead of tab
+set hlsearch            " highlight search
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4        "shift width, 자동들여쓰기를 4칸으로 설정
+
+set ignorecase          " if considering case for foo,Foo,FOO :/\Cfoo
+set nocompatible
+set showmatch           " {} matching
+set smartindent
+set autoindent
+set title               " show title
+set ruler
+set history=1000
+if(has('nvim'))
+    set clipboard+=unnamedplus   " nvim, use windows clipboard
+else
+    set clipboard+=unnamed       " gvim, use windows clipboard
+endif
+set nu                  " line no
+set nowrap
+set textwidth=0         " do not make new line over80 column
+set cmdwinheight=10     " command line window size, use q: to open it
+filetype off
+filetype plugin indent on
+" backup, undo, swap file
+set backupdir=d:/zz/VIM_Temp/_backup//
+set undodir=d:/zz/VIM_Temp/_undo//
+set directory=d:/zz/VIM_Temp/_swap//
+set backup              " nobackup
+set writebackup         " nowritebackup
+set swapfile            " noswapfile
+
+
+
+" encoding, font (cp949,cp437,euc-kr,ko_KR,eu_EN)
+set encoding=utf-8      " necessary for airline (powerline) symbol
+set fileencodings-=latin1
+set fileencodings+=cp949
+" NanumGothicCoding, 나눔고딕코딩,DejaVu\ Sans\ Mono\ for\ Powerline, Inconsolata\ for\ Powerline, D2Coding
+if has('nvim')==0       " nvim 에서는 ginit.vim 내의 폰트 설정 적용해야 함
+    set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h10:b
+endif
+"set guifont=나눔고딕코딩:h10:cDEFAULT:qDRAFT
+set guifontwide=D2Coding:h10:b:cHANGEUL:qDRAFT
+
+" tab, space display
+"set listchars=eol:￢,tab:>·,trail:~,extends:>,precedes:<,space:.
+set listchars=tab:>>,trail:~,extends:>,precedes:<,space:·   " set fenc=utf-8 (to work properly)
+set list
+
+
+" in vimrc_example.vim, textwidth should be unsetted
+if has("autocmd")
+  " For all text files set 'textwidth' to 78 characters.
+  autocmd FileType text setlocal textwidth=0
+endif " has("autocmd")
+
+" _vimrc : save as another copy for gvim location...
+autocmd BufWritePost $XDG_CONFIG_HOME/nvim/_vimrc w! D:/WinUt/Vim/_vimrc
+
+
+" terminal, shell setting
+"if has("windows")
+"    set shell=C:\Windows\Sysnative\wsl.exe
+"    set shellpipe=|
+"    set shellredir=>
+"    set shellcmdflag=
+"endif
+"set shell='c:\cygwin64\bin\bash.exe --rcfile /foo/bar/mybashrc'
+" make sure ' when using space, " 
+"set shell=\"c:\Program\ Files\Git\bin\bash.exe\"
+
+
+" Key mapping
+"map <F2>    :tab-new<CR>
+"map <C-h>   gT
+noremap   <Leader>q  :q<CR>     " quit
+noremap   <Leader>s  :w<CR>     " save
+inoremap  <Leader>s  <C-c>:w<CR>    " save in insert mode
+tnoremap <C-h>  <C-\><C-N><C-w><C-h>  " buffer navigation for terminal mode
+tnoremap <C-j>  <C-\><C-N><C-w><C-j>  " buffer navigation
+tnoremap <C-k>  <C-\><C-N><C-w><C-k>  " buffer navigation
+tnoremap <C-l>  <C-\><C-N><C-w><C-l>  " buffer navigation
+nnoremap <C-h>  <C-w><C-h>  " buffer navigation
+nnoremap <C-j>  <C-w><C-j>  " buffer navigation
+nnoremap <C-k>  <C-w><C-k>  " buffer navigation
+nnoremap <C-l>  <C-w><C-l>  " buffer navigation
+map <C-Tab> :bn<CR>     " next buffer
+map <F4>    :q!<CR>
+nnoremap <Leader>rc :e $MYVIMRC<CR>     " see below for nvim mapping
+"nnoremap <Leader>rc :rightbelow vnew $MYVIMRC<CR>
+nnoremap <space>    za
+set foldmethod=indent
+set foldlevel=99
+" Toggle menu bar, tool bar
+nnoremap <silent> <Leader>mm :if &guioptions =~# 'T'<Bar>
+    \ set guioptions-=T<Bar>
+    \ set guioptions-=m<Bar>
+    \ set guioptions-=r<Bar>
+    \ set guioptions-=l<Bar>
+    \ set guioptions-=L<Bar>
+    \ set guioptions-=b<Bar>
+\else<Bar>
+    \ set guioptions+=T<Bar>
+    \ set guioptions+=m<Bar>
+    \ set guioptions+=r<Bar>
+    \ set guioptions+=l<Bar>
+    \ set guioptions+=L<Bar>
+    \ set guioptions+=b<Bar>
+\endif<CR>
+" Toggle background
+nnoremap <Leader>bg :let &background = ( &background == "dark"? "light" : "dark" )<CR>
+
+" syntax highlight for plain text file, taht begis with ^#\s.* 
+au BufRead *.txt if getline(1) =~ '^#\s.*' | setlocal ft=vim.flow | endif
+
+
+" ESC키를 누르면 한글 모드가 해제
+" 입력모드에서 이전 언어 설정 모드 유지 
+" i,I mapping 시 반복 명령 에러. ex) 80i=<ESC>
+inoremap <ESC> <ESC>:set imdisable<CR>
+"nnoremap i :set noimd<CR>i
+"nnoremap I :set noimd<CR>I
+nnoremap a :set noimd<CR>a
+nnoremap A :set noimd<CR>A
+nnoremap o :set noimd<CR>o
+nnoremap O :set noimd<CR>O 
+
+
+" Language key mapping
+"au FileType python map <f2> : !python %
+au FileType python map <f5> : AsyncRun -raw python %<CR>
+au BufNewFile,BufRead *.py
+    \ set textwidth=79
+" Flagging Unnecessary Whitespace
+"au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+let g:python3_host_prog = 'D:\Python3\python.exe'
+
+
+" vimtex, LaTeX Setting
+au BufNewFile,BufRead *.tex
+    \ set tabstop=2 |
+    \ set softtabstop=2 |
+    \ set shiftwidth=2 |
+    \ set textwidth=79
+
+let &runtimepath  = '~/.vim/bundle/vimtex,' . &runtimepath
+let &runtimepath .= ',~/.vim/bundle/vimtex/after'
+
+let $PATH .= ';' . 'd:\zz\TnXTeX\TnXTeXLive\bin;d:\zz\TnXTeX\TnXTeXLive\bin\win32'
+"let $PATH .= ';' . 'C:\Strawberry\perl\bin'
+"let $PYTHONHOME =  'C:\Users\julia\AppData\Local\Programs\Python\Python35'
+
+let g:vimtex_compiler_latexmk = {
+    \ 'executable' : 'd:\zz\TnXTeX\TnXTeXLive\bin\win32\latexmk.exe',
+    \}
+let g:latex_viewer='SumatraPDF'
+let g:vimtex_view_general_viewer = 'SumatraPDF'
+let g:vimtex_view_general_options
+	\ = '-reuse-instance -forward-search @tex @line @pdf'
+let g:vimtex_view_general_options_latexmk = '-reuse-instance'
+" TOC settings
+let g:vimtex_toc_config = {
+      \ 'name' : 'TOC',
+      \ 'layers' : ['content', 'todo', 'include'],
+      \ 'resize' : 1,
+      \ 'split_width' : 30,
+      \ 'todo_sorted' : 0,
+      \ 'show_help' : 1,
+      \ 'show_numbers' : 1,
+      \ 'mode' : 2,
+      \}
+
+if !exists('g:ycm_semantic_triggers')
+    let g:ycm_semantic_triggers = {}
+endif
+let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
+
+"nmap <F2> :VimtexCompile
+"nmap <F3> :VimtexView<CR>
+
+
+" NERDTree
+let NERDTreeWinPos = "left"
+let g:NERDTreeWinSize=20
+"nnoremap <C-f>      :NERDTreeFind<CR>
+nnoremap <Leader>f  :NERDTreeFind<CR>
+nnoremap <Leader>n  :NERDTreeToggle<CR>
+
+" Asyncrun
+let $PYTHONUNBUFFERED=1     " used in Asyncrun
+let g:asyncrun_open = 6     " quickfix window for output (or :copen {height}
+
+" airline. smarter tab line
+set laststatus=2
+let g:airline_powerline_fonts = 1
+let g:airline_theme='papercolor'
+let g:airline#extensions#whitespace#enabled = 0             " 공백주의 표시 안함.
+let g:airline#extensions#tabline#enabled = 1                " vim-airline 버퍼 목록 켜기
+"let g:airline#extensions#tabline#left_sep = ' '            " this has ugly airline tab
+let g:airline#extensions#tabline#left_alt_sep = '>'
+" let g:airline#extensions#tabline#fnamemod = ':t'            " vim-airline 버퍼 목록 파일명만 출력
+let g:airline#extensions#tabline#buffer_nr_show = 1         " buffer number를 보여준다
+let g:airline#extensions#tabline#buffer_nr_format = '%s:'   " buffer number format
+let g:airline#extensions#vimtex#enabled = 1
+let g:airline#extensions#tabline#show_tabs = 1
+
+
+if(has("gui_running"))
+    let g:solarized_contrast="normal"   "default value is normal, high
+    let g:solarized_italic=0
+    let g:loaded_togglebg = 1           " necessary for toggle bg
+    "let g:lightline.colorscheme = 'palenight'
+    set background=dark         " dark or light
+    colorscheme gruvbox         " solarized, palenight, gruvbox
+else
+    colorscheme desert
+endif
+
+
+if(has('nvim'))
+    " GuiTabLine, GuiFont should be in ginit.vim
+    "GuiTabline 0            " go back to TUI tab to use airline tab
+    "GuiFont! DejaVu\ Sans\ Mono\ for\ Powerline:h10:b       " avoid font pixed pitch metrics
+    "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+    set termguicolors
+    let g:vimtex_compiler_progname = 'nvr'         " if not, compiler callback error will be occurred
+    nnoremap <Leader>rc :e $XDG_CONFIG_HOME\nvim\_vimrc<CR>
+endif
+
+
+set diffexpr=MyDiff()
+function MyDiff()
+  let opt = '-a --binary '
+  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+  let arg1 = v:fname_in
+  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+  let arg1 = substitute(arg1, '!', '\!', 'g')
+  let arg2 = v:fname_new
+  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+  let arg2 = substitute(arg2, '!', '\!', 'g')
+  let arg3 = v:fname_out
+  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+  let arg3 = substitute(arg3, '!', '\!', 'g')
+  if $VIMRUNTIME =~ ' '
+    if &sh =~ '\<cmd'
+      if empty(&shellxquote)
+        let l:shxq_sav = ''
+        set shellxquote&
+      endif
+      let cmd = '"' . $VIMRUNTIME . '\diff"'
+    else
+      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+    endif
+  else
+    let cmd = $VIMRUNTIME . '\diff'
+  endif
+  let cmd = substitute(cmd, '!', '\!', 'g')
+  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
+  if exists('l:shxq_sav')
+    let &shellxquote=l:shxq_sav
+  endif
+endfunction
+
+colorscheme gruvbox
